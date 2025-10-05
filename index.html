@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz Aniversário Miriã! 🎉</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #ffccf9 0%, #c2e9fb 100%);
+    }
+
+    .dancing-font {
+      font-family: 'Dancing Script', cursive;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -50px;
+      animation: float 12s ease-in infinite;
+      z-index: 20;
+      opacity: 0.8;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+      z-index: 20;
+    }
+
+    .screen-emoji {
+      position: fixed;
+      bottom: -40px;
+      font-size: 40px;
+      z-index: 99999; /* para ficar sobre o main */
+      pointer-events: none;
+      will-change: transform;
+      transform-origin: center;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+      filter: brightness(1.2);
+    }
+
+    .heart-btn {
+      transition: all 0.3s ease;
+    }
+
+    .heart-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .hug-animation {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .photo-frame {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .photo-frame::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 2px dashed #ff85a2;
+      border-radius: 5px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+  <!-- Música romântica automática -->
+  <audio id="bgMusic" autoplay loop>
+  <source src="music/Fico assim sem você -Roberta Tiepo (Letra)(MP3_320K).mp3" type="audio/mp3" />
+  Seu navegador não suporta áudio.
+</audio>
+
+  <!-- Emojis e balões flutuantes -->
+  <div id="floatingElements" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999;"></div>
+
+  <!-- Conteúdo principal -->
+  <main class="max-w-2xl w-full bg-white bg-opacity-80 rounded-xl shadow-2xl overflow-hidden backdrop-blur-sm p-6 md:p-8 relative z-10 transform transition-all hover:scale-[1.02] hover:shadow-xl">
+    <header class="text-center mb-6">
+      <h1 class="text-4xl md:text-5xl font-bold text-pink-600 dancing-font mb-2">Feliz Aniversário!</h1>
+      <p class="text-lg text-purple-500">Miriã 🎀</p>
+    </header>
+
+    <!-- Moldura da Foto -->
+    <div class="photo-frame mb-8 mx-auto w-64 h-64 flex items-center justify-center bg-gradient-to-br from-pink-100 to-blue-100 transform transition-all hover:scale-105 hover:rotate-1">
+      <img src="IMG/2.png" alt="Miriã" class="w-full h-full object-cover rounded" id="birthdayPhoto" />
+    </div>
+
+    <!-- Mensagem -->
+    <div class="bg-pink-50 border-2 border-pink-200 rounded-xl p-6 mb-8 relative">
+      <div class="absolute -top-3 -left-3 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center">
+        <i data-feather="heart" class="w-4 h-4"></i>
+      </div>
+      <p class="text-lg text-gray-800">
+        <span class="dancing-font text-2xl text-white-600">Feliz aniversário, sua chata! 🎉
+            <br>
+            <br>
+            Que você tenha muitos e muitos anos de vida, continuando exatamente assim: chata e linda, do jeitinho que eu gosto! 💕
+            <br> <br>
+            Desejo que você viva seus sonhos intensamente, que seu dia seja tão lindo quanto o seu sorriso, e que o seu ano seja tão maravilhoso quanto você! 😜<br /><br />
+        <span class="font-semibold text-pink-600">Te adoro, sua louca maravilhosa! Obrigado por ser essa mullher incrível. 💕</span>
+      </p>
+    </div>
+
+    <!-- Botão de celebrar -->
+    <div class="text-center mb-8">
+      <button onclick="celebrate()" class="heart-btn bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white px-8 py-4 rounded-full shadow-lg font-bold text-xl transform transition-all hover:scale-105 hover:shadow-xl">
+        CLIQUE AQUI PARA CELEBRAR! 🎉
+      </button>
+    </div>
+  </main>
+
+  <!-- Botão de abraço -->
+  <footer class="mt-8 text-center">
+    <button onclick="showHug()" class="heart-btn bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-full shadow-lg font-semibold flex items-center mx-auto">
+      <i data-feather="heart" class="w-5 h-5 mr-2"></i> Clique aqui para ganhar um abraço virtual 🤗
+    </button>
+  </footer>
+
+  <!-- Modal de abraço -->
+  <div id="hugModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-8 max-w-sm text-center hug-animation">
+      <i data-feather="heart" class="w-16 h-16 text-pink-500 mx-auto mb-4"></i>
+      <h3 class="text-2xl font-bold text-pink-600 mb-2">Abraço Virtual!</h3>
+      <p class="text-gray-700 mb-4">🤗 Um abraço bem apertado pra você, Miriã! 💖</p>
+      <button onclick="hideHug()" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full">Fechar</button>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      feather.replace();
+      alert("Feliz aniversário, Miriã! 🎉 Infelizmente só consegui fazer isso pra você, mas foi feito com carinho. Espero que goste! 💖");
+    });
+
+    function celebrate() {
+      createBalloons(15);
+      createConfetti(60);
+      createFloatingEmojis();
+    }
+
+    function createFloatingEmojis() {
+      const container = document.getElementById('floatingElements');
+      const emojis = ['🎉', '🎂', '🎈', '🦄', '✨', '💖'];
+
+      for (let i = 0; i < 30; i++) {
+        const emoji = document.createElement('div');
+        emoji.className = 'screen-emoji';
+        emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * 100 + 'vw';
+        emoji.style.fontSize = (Math.random() * 20 + 30) + 'px';
+        emoji.style.transform = `rotate(${Math.random() * 90 - 45}deg)`;
+        container.appendChild(emoji);
+
+        anime({
+          targets: emoji,
+          translateY: -window.innerHeight + 'px',
+          translateX: (Math.random() - 0.5) * 50 + 'px',
+          rotate: Math.random() * 90 - 45,
+          opacity: [1, 0],
+          duration: 1200,
+          easing: 'easeOutCubic',
+          complete: function () {
+            emoji.remove();
+          }
+        });
+      }
+    }
+
+    function createBalloons(count) {
+      const container = document.getElementById('floatingElements');
+      const emojis = ['🎈', '🎉', '🎁', '🎊', '🎂', '🦄', '💖'];
+
+      for (let i = 0; i < count; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+        balloon.style.left = Math.random() * 100 + 'vw';
+        balloon.style.fontSize = (Math.random() * 30 + 20) + 'px';
+        balloon.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        container.appendChild(balloon);
+
+        setTimeout(() => {
+          balloon.remove();
+        }, 15000);
+      }
+    }
+
+    function createConfetti(count) {
+      const container = document.getElementById('floatingElements');
+      const colors = ['#ff85a2', '#a79aff', '#85d6ff', '#ffdf85', '#a2ff8f'];
+
+      for (let i = 0; i < count; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = '-10px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+
+        container.appendChild(confetti);
+
+        anime({
+          targets: confetti,
+          translateY: window.innerHeight + 'px',
+          translateX: (Math.random() - 0.5) * 200 + 'px',
+          rotate: Math.random() * 360,
+          opacity: [1, 0],
+          duration: 2000 + Math.random() * 1000,
+          easing: 'easeOutQuad',
+          complete: function () {
+            confetti.remove();
+          }
+        });
+      }
+    }
+
+    function showHug() {
+      document.getElementById('hugModal').classList.remove('hidden');
+    }
+
+    function hideHug() {
+      document.getElementById('hugModal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
